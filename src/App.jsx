@@ -1,42 +1,30 @@
-import logo from "./logo.svg";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
-require("dotenv").config();
+import Map from "./components/Map";
+import Filter from "./components/Filter";
+import Grid from "./components/Grid";
+import axios from "axios";
 
-const libraries = ["places"];
-const mapContainerStyle = {
-  width: "100vw",
-  height: "70vh",
-};
+export default function App() {
+  const [clickedPlace, setClickedPlace] = useState();
+  const [markers, setMarkers] = useState([]);
 
-const center = {
-  lat: 34.669529,
-  lng: 135.497009,
-};
-
-function App() {
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries,
-  });
-
-  if (loadError) return "Error loading maps";
-  if (!isLoaded) return "Loading maps";
+  useEffect(async () => {
+    const allData = await axios.get("/api/magnets");
+    setMarkers(allData.data);
+    console.log(allData.data);
+  }, []);
 
   return (
     <div className="App">
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        zoom={3}
-        center={center}
-      ></GoogleMap>
+      <h1>MagMap!</h1>
+      <Map
+        setClickedPlace={setClickedPlace}
+        clickedPlace={clickedPlace}
+        markers={markers}
+      />
+      <Filter />
+      <Grid />
     </div>
   );
 }
-
-export default App;

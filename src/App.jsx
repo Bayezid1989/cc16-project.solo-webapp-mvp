@@ -1,30 +1,35 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
+// import Search from "./components/Search";
 import Map from "./components/Map";
-import Filter from "./components/Filter";
 import Grid from "./components/Grid";
-import axios from "axios";
+import Filter from "./components/Filter";
 
 export default function App() {
-  const [clickedPlace, setClickedPlace] = useState();
+  const [clickedPlace, setClickedPlace] = useState(null);
   const [markers, setMarkers] = useState([]);
-
-  useEffect(async () => {
-    const allData = await axios.get("/api/magnets");
-    setMarkers(allData.data);
-    console.log(allData.data);
+  const [selectedMarker, setSelectedMarker] = useState(null);
+  const mapRef = useRef();
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(5);
   }, []);
 
   return (
     <div className="App">
-      <h1>MagMap!</h1>
+      <h1 className="header-logo">MagMap!</h1>
       <Map
-        setClickedPlace={setClickedPlace}
         clickedPlace={clickedPlace}
+        setClickedPlace={setClickedPlace}
         markers={markers}
+        setMarkers={setMarkers}
+        selectedMarker={selectedMarker}
+        setSelectedMarker={setSelectedMarker}
+        mapRef={mapRef}
+        panTo={panTo}
       />
-      <Filter />
-      <Grid />
+      <Filter markers={markers} setMarkers={setMarkers} />
+      <Grid markers={markers} panTo={panTo} />
     </div>
   );
 }

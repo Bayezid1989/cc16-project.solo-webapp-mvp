@@ -14,9 +14,56 @@ code {
 
 h1 {
   position: absolute;
-  top: 1rem;
+  top: 0.5rem;
   left: 1rem;
   z-index: 10;
   margin: 0;
   padding: 0;
+  color: rgb(4, 77, 233);
+}
+
+.search {
+  position: absolute;
+  top: 1rem;
+  left: 80%;
+  transform: translate(-50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+}
+
+.search input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+.window-box-image {
+  max-width: 150px !important;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-gap: 1rem;
+  grid-auto-flow: dense;
+  padding: 1rem;
+}
+
+.image-wrapper {
+}
+
+.image {
+  max-width: 280px;
+  border-radius: 12px;
 }

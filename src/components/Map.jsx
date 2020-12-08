@@ -6,11 +6,23 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import mapStyles from "./mapStyles";
+import axios from "axios";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxOption,
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
 
 const libraries = ["places"];
 const mapContainerStyle = {
-  width: "100vw",
-  height: "70vh",
+  width: "99vw",
+  height: "60vh",
 };
 
 const center = {
@@ -24,32 +36,139 @@ const options = {
   zoomControl: true,
 };
 
-export default function Map({ setClickedPlace, clickedPlace, markers }) {
+export default function Map({
+  setClickedPlace,
+  clickedPlace,
+  setMarkers,
+  markers,
+  selectedMarker,
+  setSelectedMarker,
+  mapRef,
+  panTo,
+}) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
 
+  const onMapClick = useCallback((e) => {
+    setClickedPlace({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+  }, []);
+
+  const onMarkerClick = useCallback((marker) => {
+    setSelectedMarker(marker);
+  }, []);
+
+  const onMapLoad = useCallback(async (map) => {
+    const allData = await axios.get("/api/magnets");
+    setMarkers(allData.data);
+    console.log("load data", allData.data);
+    mapRef.current = map;
+  }, []);
+
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading maps";
 
   return (
-    <GoogleMap
-      mapContainerStyle={mapContainerStyle}
-      zoom={3}
-      center={center}
-      options={options}
-      onClick={(e) => {
-        setClickedPlace({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-        console.log("clickedPlace", clickedPlace);
-      }} //popup windoe to insert data --> setMarkers
-    >
-      {markers.map((marker) => (
-        <Marker
-          key={marker.id}
-          position={{ lat: marker.lat, lng: marker.lng }}
+    <div>
+      <Search panTo={panTo} />
+      <GoogleMap
+        mapContainerStyle={mapContainerStyle}
+        zoom={3}
+        center={center}
+        options={options}
+        onClick={onMapClick} //popup windoe to insert data --> setMarkers
+        onLoad={onMapLoad}
+      >
+        {markers.map((marker) => (
+          <Marker
+            key={marker.id}
+            position={{ lat: marker.lat, lng: marker.lng }}
+            icon={{
+              url: "/magnet.svg",
+              scaledSize: new window.google.maps.Size(30, 30),
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+            }}
+            onClick={() => {
+              onMarkerClick(marker);
+            }}
+          />
+        ))}
+
+        {selectedMarker ? (
+          <InfoWindow
+            position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+            onCloseClick={() => {
+              setSelectedMarker(null);
+            }}
+          >
+            <div className="window-box-wrapper">
+              <img
+                className="window-box-image"
+                src={selectedMarker.image_url}
+              ></img>
+              <ul className="window-box-list">
+                <li>Owner: {selectedMarker.owner}</li>
+                <li>Hunter: {selectedMarker.hunter}</li>
+                <li>Comment: {selectedMarker.comment}</li>
+                {selectedMarker.handmade ? <li>This is handmade!</li> : null}
+              </ul>
+            </div>
+          </InfoWindow>
+        ) : null}
+      </GoogleMap>
+    </div>
+  );
+}
+
+function Search({ panTo }) {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      location: { lat: () => 34.669529, lng: () => 135.497009 },
+      radius: 200 * 1000,
+    },
+  });
+  return (
+    <div className="search">
+      <Combobox
+        onSelect={async (address) => {
+          setValue(address, false);
+          clearSuggestions();
+          try {
+            const results = await getGeocode({ address });
+            const { lat, lng } = await getLatLng(results[0]);
+            panTo({ lat, lng });
+          } catch {
+            console.log("Combobox error");
+          }
+        }}
+      >
+        <ComboboxInput
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          disabled={!ready}
+          placeholder="Enter a location"
         />
-      ))}
-    </GoogleMap>
+        <ComboboxPopover>
+          {status === "OK" &&
+            data.map(({ id, description }) => (
+              <ComboboxOption key={id} value={description} />
+            ))}
+        </ComboboxPopover>
+      </Combobox>
+    </div>
   );
 }

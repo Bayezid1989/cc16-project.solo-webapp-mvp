@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const pool = require("./db");
+const pool = require("./database/db");
 
 const app = express();
 app.use(cors());
@@ -19,10 +19,10 @@ app.get("/api/magnets", async (req, res) => {
         conditions += `${query} = '${queries[query]}'`;
       }
       magnets = await pool.query(
-        `SELECT * FROM magnet ${conditions}ORDER BY id ASC`
+        `SELECT * FROM magnet ${conditions}ORDER BY random()`
       );
     } else {
-      magnets = await pool.query(`SELECT * FROM magnet ORDER BY id ASC`);
+      magnets = await pool.query(`SELECT * FROM magnet ORDER BY random()`);
     }
     res.json(magnets.rows);
   } catch (err) {
@@ -35,7 +35,7 @@ app.post("/api/magnet", async (req, res) => {
     const postData = req.body;
     console.log(postData.image_url);
     const newMagnet = await pool.query(
-      `INSERT INTO magnet (image_url, lat, lng, city, country, area, handmade) VALUES ('${postData.image_url}', '${postData.lat}', '${postData.lng}', '${postData.city}', '${postData.country}', '${postData.area}', '${postData.handmade}')`
+      `INSERT INTO magnet (image_url, lat, lng, owner, hunter, comment, city, country, area, handmade) VALUES ('${postData.image_url}', '${postData.lat}', '${postData.lng}', '${postData.owner}', '${postData.hunter}', '${postData.comment}', '${postData.city}', '${postData.country}', '${postData.area}','${postData.handmade}')`
     );
     res.json(newMagnet);
   } catch (err) {

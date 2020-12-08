@@ -46,6 +46,10 @@ ul {
   max-width: 150px !important;
 }
 
+.window-box-icon {
+  width: 20px;
+}
+
 * {
   margin: 0;
   padding: 0;

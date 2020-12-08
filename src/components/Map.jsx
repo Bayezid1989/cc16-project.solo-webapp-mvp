@@ -108,12 +108,25 @@ export default function Map({
                 className="window-box-image"
                 src={selectedMarker.image_url}
               ></img>
-              <ul className="window-box-list">
-                <li>Owner: {selectedMarker.owner}</li>
-                <li>Hunter: {selectedMarker.hunter}</li>
-                <li>Comment: {selectedMarker.comment}</li>
-                {selectedMarker.handmade ? <li>This is handmade!</li> : null}
-              </ul>
+              <div className="window-box-info">
+                <ul>
+                  <li>Hunted by {selectedMarker.hunter}</li>
+                  <li>Owned by {selectedMarker.owner}</li>
+                  <li>
+                    {selectedMarker.owner !== selectedMarker.hunter ? (
+                      <img class="window-box-icon" src="/gift-box.svg" alt="" />
+                    ) : null}
+                    {selectedMarker.handmade ? (
+                      <img
+                        class="window-box-icon"
+                        src="/porcelain.svg"
+                        alt=""
+                      />
+                    ) : null}
+                  </li>
+                  <p>{selectedMarker.comment}</p>
+                </ul>
+              </div>
             </div>
           </InfoWindow>
         ) : null}

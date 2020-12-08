@@ -6,8 +6,8 @@ const pool = require("./database/db");
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.resolve(__dirname, "..", "build")));
 
-// city or country or area
 app.get("/api/magnets", async (req, res) => {
   try {
     let magnets;

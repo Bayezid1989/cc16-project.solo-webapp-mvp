@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
 import "./App.css";
-// import Search from "./components/Search";
 import Map from "./components/Map";
 import Grid from "./components/Grid";
 import Filter from "./components/Filter";

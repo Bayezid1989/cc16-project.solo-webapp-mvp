@@ -20,6 +20,7 @@ h1 {
   margin: 0;
   padding: 0;
   color: rgb(4, 77, 233);
+  cursor: pointer;
 }
 
 .search {
@@ -44,10 +45,33 @@ ul {
 
 .window-box-image {
   max-width: 150px !important;
+  border-radius: 10px;
+}
+
+.window-box-info {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  font-weight: bolder;
 }
 
 .window-box-icon {
   width: 20px;
+  margin: 5px;
+}
+
+.post-wrapper {
+  display: flex;
+}
+
+.post-input {
+  margin: 5px;
+  padding: 5px;
+}
+
+.post-button {
+  margin: 5px;
+  margin: 5px;
 }
 
 * {
@@ -67,4 +91,11 @@ ul {
 .image {
   max-width: 280px;
   border-radius: 12px;
+  cursor: pointer;
+}
+
+.image:hover {
+  filter: brightness(80%);
+  transform: scale(1.02, 1.02);
+  transition: 0.3s all;
 }

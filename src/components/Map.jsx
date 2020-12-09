@@ -22,7 +22,7 @@ import "@reach/combobox/styles.css";
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "99vw",
-  height: "60vh",
+  height: "55vh",
 };
 
 const center = {
@@ -45,6 +45,11 @@ export default function Map({
   setSelectedMarker,
   mapRef,
   panTo,
+  isPostView,
+  setIsPostView,
+  setCities,
+  setCountires,
+  setAreas,
 }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -64,6 +69,17 @@ export default function Map({
     setMarkers(allData.data);
     console.log("load data", allData.data);
     mapRef.current = map;
+    const cities = [];
+    const countries = [];
+    const areas = [];
+    allData.data.map((data) => {
+      cities.push(data.city);
+      countries.push(data.country);
+      areas.push(data.area);
+    });
+    setCities([...new Set(cities)]);
+    setCountires([...new Set(countries)]);
+    setAreas([...new Set(areas)]);
   }, []);
 
   if (loadError) return "Error loading maps";
@@ -96,6 +112,18 @@ export default function Map({
           />
         ))}
 
+        {clickedPlace !== null ? (
+          <Marker
+            position={{ lat: clickedPlace.lat, lng: clickedPlace.lng }}
+            onClick={() => {
+              isPostView ? setIsPostView(false) : setIsPostView(true);
+              isPostView
+                ? setClickedPlace(null)
+                : setClickedPlace(clickedPlace);
+            }}
+          />
+        ) : null}
+
         {selectedMarker ? (
           <InfoWindow
             position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
@@ -112,19 +140,23 @@ export default function Map({
                 <ul>
                   <li>Hunted by {selectedMarker.hunter}</li>
                   <li>Owned by {selectedMarker.owner}</li>
+                  <li>{selectedMarker.comment}</li>
                   <li>
                     {selectedMarker.owner !== selectedMarker.hunter ? (
-                      <img class="window-box-icon" src="/gift-box.svg" alt="" />
+                      <img
+                        className="window-box-icon"
+                        src="/gift-box.svg"
+                        alt=""
+                      />
                     ) : null}
                     {selectedMarker.handmade ? (
                       <img
-                        class="window-box-icon"
+                        className="window-box-icon"
                         src="/porcelain.svg"
                         alt=""
                       />
                     ) : null}
                   </li>
-                  <p>{selectedMarker.comment}</p>
                 </ul>
               </div>
             </div>

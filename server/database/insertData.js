@@ -34,6 +34,9 @@ const pool = require("./db");
   await pool.query(
     "INSERT INTO magnet (image_url, lat, lng, owner, hunter, comment, city, country, area, handmade) VALUES ('/magnetImages/_IMG_3509.JPG', '25.691688503701073', '32.63886696356614', 'Yoshinori', 'Yoshinori', 'Luxor', 'Luxor', 'Egypt', 'Middle East', 'false')"
   );
+  await pool.query(
+    "INSERT INTO magnet (image_url, lat, lng, owner, hunter, comment, city, country, area, handmade) VALUES ('/magnetImages/_IMG_3498.JPG', '32.87227448898397', '35.54991416882039', 'Yoshinori', 'Yoshinori', 'Miracle church', 'Tabgha', 'Israel', 'Middle East', 'false')"
+  );
   selected = await pool.query(`SELECT * FROM magnet`);
   console.log(selected);
 })();

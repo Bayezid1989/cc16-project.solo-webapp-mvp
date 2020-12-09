@@ -32,7 +32,8 @@ export default function Post({
         handmade: handmade,
       };
       const res = await axios.post("/api/magnet", body);
-      window.location.reload();
+      const allData = await axios.get("/api/magnets");
+      if (allData.data.length !== markers.length) window.location.reload();
     } catch (err) {
       console.log("Got an error at axios.post", err);
     }

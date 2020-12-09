@@ -49,6 +49,7 @@ export default function App() {
           setIsPostView={setIsPostView}
           setClickedPlace={setClickedPlace}
           clickedPlace={clickedPlace}
+          markers={markers}
         />
       ) : null}
 

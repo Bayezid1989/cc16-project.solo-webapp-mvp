@@ -45,11 +45,10 @@ export default function Map({
   setSelectedMarker,
   mapRef,
   panTo,
-  isPostView,
-  setIsPostView,
   setCities,
   setCountires,
   setAreas,
+  clickModalAdd,
 }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -65,14 +64,14 @@ export default function Map({
   }, []);
 
   const onMapLoad = useCallback(async (map) => {
-    const allData = await axios.get("/api/magnets");
-    setMarkers(allData.data);
-    console.log("load data", allData.data);
+    const res = await axios.get("/api/magnets");
+    setMarkers(res.data);
+    console.log("Loaded data", res.data);
     mapRef.current = map;
     const cities = [];
     const countries = [];
     const areas = [];
-    allData.data.map((data) => {
+    res.data.map((data) => {
       cities.push(data.city);
       countries.push(data.country);
       areas.push(data.area);
@@ -101,7 +100,7 @@ export default function Map({
             key={marker.id}
             position={{ lat: marker.lat, lng: marker.lng }}
             icon={{
-              url: "/magnet.svg",
+              url: "/icons/magnet_yellow.svg",
               scaledSize: new window.google.maps.Size(30, 30),
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
@@ -116,10 +115,8 @@ export default function Map({
           <Marker
             position={{ lat: clickedPlace.lat, lng: clickedPlace.lng }}
             onClick={() => {
-              isPostView ? setIsPostView(false) : setIsPostView(true);
-              isPostView
-                ? setClickedPlace(null)
-                : setClickedPlace(clickedPlace);
+              setClickedPlace(clickedPlace);
+              clickModalAdd();
             }}
           />
         ) : null}
@@ -135,6 +132,8 @@ export default function Map({
               <img
                 className="window-box-image"
                 src={selectedMarker.image_url}
+                data-toggle="modal"
+                data-target="#myModalEdit"
               ></img>
               <div className="window-box-info">
                 <ul>
@@ -145,14 +144,14 @@ export default function Map({
                     {selectedMarker.owner !== selectedMarker.hunter ? (
                       <img
                         className="window-box-icon"
-                        src="/gift-box.svg"
+                        src="/icons/gift-box.svg"
                         alt=""
                       />
                     ) : null}
                     {selectedMarker.handmade ? (
                       <img
                         className="window-box-icon"
-                        src="/porcelain.svg"
+                        src="/icons/porcelain.svg"
                         alt=""
                       />
                     ) : null}

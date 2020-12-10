@@ -83,13 +83,6 @@ export default function Filter({
       >
         Filter!
       </button>
-      <button
-        onClick={() => {
-          window.location.reload();
-        }}
-      >
-        Reset
-      </button>
     </div>
   );
 }

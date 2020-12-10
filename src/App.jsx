@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import "./App.css";
 import Map from "./components/Map";
 import Post from "./components/Post";
+import EditDelete from "./components/EditDelete";
 import Grid from "./components/Grid";
 import Filter from "./components/Filter";
 
@@ -9,7 +10,6 @@ export default function App() {
   const [clickedPlace, setClickedPlace] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
-  const [isPostView, setIsPostView] = useState(false);
   const [cities, setCities] = useState();
   const [countries, setCountires] = useState();
   const [areas, setAreas] = useState();
@@ -18,6 +18,10 @@ export default function App() {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(5);
   }, []);
+  const modalAddRef = useRef();
+  const clickModalAdd = useCallback(() => {
+    modalAddRef.current.click();
+  });
 
   return (
     <div className="App">
@@ -38,20 +42,23 @@ export default function App() {
         setSelectedMarker={setSelectedMarker}
         mapRef={mapRef}
         panTo={panTo}
-        isPostView={isPostView}
-        setIsPostView={setIsPostView}
         setCities={setCities}
         setCountires={setCountires}
         setAreas={setAreas}
+        clickModalAdd={clickModalAdd}
       />
-      {isPostView ? (
-        <Post
-          setIsPostView={setIsPostView}
-          setClickedPlace={setClickedPlace}
-          clickedPlace={clickedPlace}
-          markers={markers}
-        />
-      ) : null}
+
+      <Post
+        setClickedPlace={setClickedPlace}
+        clickedPlace={clickedPlace}
+        markers={markers}
+        modalAddRef={modalAddRef}
+      />
+
+      <EditDelete
+        selectedMarker={selectedMarker}
+        setSelectedMarker={setSelectedMarker}
+      />
 
       <Filter
         markers={markers}

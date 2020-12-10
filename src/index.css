@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+    sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,8 +19,10 @@ h1 {
   z-index: 10;
   margin: 0;
   padding: 0;
-  color: rgb(4, 77, 233);
+  color: rgb(0, 142, 185);
   cursor: pointer;
+  font-size: calc(15px + 2vmin);
+  font-weight: bold;
 }
 
 .search {
@@ -46,6 +48,7 @@ ul {
 .window-box-image {
   max-width: 150px !important;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .window-box-info {
@@ -60,18 +63,18 @@ ul {
   margin: 5px;
 }
 
-.post-wrapper {
-  display: flex;
-}
-
 .post-input {
   margin: 5px;
   padding: 5px;
 }
 
-.post-button {
-  margin: 5px;
-  margin: 5px;
+.submit-button {
+  max-width: 40px;
+  cursor: pointer;
+}
+
+.display-none {
+  display: none;
 }
 
 * {

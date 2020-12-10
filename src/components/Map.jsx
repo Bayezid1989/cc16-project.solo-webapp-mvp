@@ -95,21 +95,25 @@ export default function Map({
         onClick={onMapClick} //popup windoe to insert data --> setMarkers
         onLoad={onMapLoad}
       >
-        {markers.map((marker) => (
-          <Marker
-            key={marker.id}
-            position={{ lat: marker.lat, lng: marker.lng }}
-            icon={{
-              url: "/icons/magnet_yellow.svg",
-              scaledSize: new window.google.maps.Size(30, 30),
-              origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(15, 15),
-            }}
-            onClick={() => {
-              onMarkerClick(marker);
-            }}
-          />
-        ))}
+        {markers.map((marker) => {
+          let iconPath = "/icons/magnet.svg";
+          if (marker.owner !== marker.hunter) iconPath = "/icons/giftbox.svg";
+          return (
+            <Marker
+              key={marker.id}
+              position={{ lat: marker.lat, lng: marker.lng }}
+              icon={{
+                url: iconPath,
+                scaledSize: new window.google.maps.Size(30, 30),
+                origin: new window.google.maps.Point(0, 0),
+                anchor: new window.google.maps.Point(15, 15),
+              }}
+              onClick={() => {
+                onMarkerClick(marker);
+              }}
+            />
+          );
+        })}
 
         {clickedPlace !== null ? (
           <Marker
@@ -141,13 +145,6 @@ export default function Map({
                   <li>Owned by {selectedMarker.owner}</li>
                   <li>{selectedMarker.comment}</li>
                   <li>
-                    {selectedMarker.owner !== selectedMarker.hunter ? (
-                      <img
-                        className="window-box-icon"
-                        src="/icons/gift-box.svg"
-                        alt=""
-                      />
-                    ) : null}
                     {selectedMarker.handmade ? (
                       <img
                         className="window-box-icon"

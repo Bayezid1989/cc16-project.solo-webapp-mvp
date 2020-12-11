@@ -1,4 +1,5 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import Modal from "react-modal";
 import "./App.css";
 import Map from "./components/Map";
 import Post from "./components/Post";
@@ -6,22 +7,21 @@ import EditDelete from "./components/EditDelete";
 import Grid from "./components/Grid";
 import Filter from "./components/Filter";
 
+Modal.setAppElement("#root");
+
 export default function App() {
   const [clickedPlace, setClickedPlace] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [cities, setCities] = useState();
   const [countries, setCountires] = useState();
-  const [areas, setAreas] = useState();
+  const [isPostModal, setIsPostModal] = useState(false);
+  const [isEditModal, setIsEditModal] = useState(false);
   const mapRef = useRef();
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(5);
   }, []);
-  const modalAddRef = useRef();
-  const clickModalAdd = useCallback(() => {
-    modalAddRef.current.click();
-  });
 
   return (
     <div className="App">
@@ -44,20 +44,23 @@ export default function App() {
         panTo={panTo}
         setCities={setCities}
         setCountires={setCountires}
-        setAreas={setAreas}
-        clickModalAdd={clickModalAdd}
+        setIsPostModal={setIsPostModal}
+        setIsEditModal={setIsEditModal}
       />
 
       <Post
         setClickedPlace={setClickedPlace}
         clickedPlace={clickedPlace}
         markers={markers}
-        modalAddRef={modalAddRef}
+        isPostModal={isPostModal}
+        setIsPostModal={setIsPostModal}
       />
 
       <EditDelete
         selectedMarker={selectedMarker}
         setSelectedMarker={setSelectedMarker}
+        isEditModal={isEditModal}
+        setIsEditModal={setIsEditModal}
       />
 
       <Filter
@@ -65,7 +68,6 @@ export default function App() {
         setMarkers={setMarkers}
         cities={cities}
         countries={countries}
-        areas={areas}
       />
       <Grid markers={markers} panTo={panTo} />
     </div>

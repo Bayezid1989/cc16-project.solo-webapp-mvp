@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -22,7 +22,7 @@ import "@reach/combobox/styles.css";
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "99vw",
-  height: "55vh",
+  height: "60vh",
 };
 
 const center = {
@@ -47,8 +47,8 @@ export default function Map({
   panTo,
   setCities,
   setCountires,
-  setAreas,
-  clickModalAdd,
+  setIsPostModal,
+  setIsEditModal,
 }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -56,6 +56,7 @@ export default function Map({
   });
 
   const onMapClick = useCallback((e) => {
+    console.log(e);
     setClickedPlace({ lat: e.latLng.lat(), lng: e.latLng.lng() });
   }, []);
 
@@ -70,15 +71,12 @@ export default function Map({
     mapRef.current = map;
     const cities = [];
     const countries = [];
-    const areas = [];
     res.data.map((data) => {
       cities.push(data.city);
       countries.push(data.country);
-      areas.push(data.area);
     });
     setCities([...new Set(cities)]);
     setCountires([...new Set(countries)]);
-    setAreas([...new Set(areas)]);
   }, []);
 
   if (loadError) return "Error loading maps";
@@ -92,7 +90,7 @@ export default function Map({
         zoom={3}
         center={center}
         options={options}
-        onClick={onMapClick} //popup windoe to insert data --> setMarkers
+        onClick={onMapClick}
         onLoad={onMapLoad}
       >
         {markers.map((marker) => {
@@ -120,7 +118,7 @@ export default function Map({
             position={{ lat: clickedPlace.lat, lng: clickedPlace.lng }}
             onClick={() => {
               setClickedPlace(clickedPlace);
-              clickModalAdd();
+              setIsPostModal(true);
             }}
           />
         ) : null}
@@ -136,8 +134,7 @@ export default function Map({
               <img
                 className="window-box-image"
                 src={selectedMarker.image_url}
-                data-toggle="modal"
-                data-target="#myModalEdit"
+                onClick={() => setIsEditModal(true)}
               ></img>
               <div className="window-box-info">
                 <ul>

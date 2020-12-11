@@ -7,7 +7,6 @@ Main focus is on manipulating React and Google Map API.
 
 - Google Maps API
 - React
-- Bootstrap
 - Express
 - NodeJS
 - postgres

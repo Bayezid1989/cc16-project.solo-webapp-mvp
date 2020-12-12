@@ -65,12 +65,28 @@ export default function Post({
 
   return (
     <div className="modal-wrapper">
-      <Modal isOpen={isPostModal} onRequestClose={() => setIsPostModal(false)}>
-        <h4 className="modal-title">Add Magnet</h4>
+      <Modal
+        isOpen={isPostModal}
+        onRequestClose={() => setIsPostModal(false)}
+        overlayClassName={{
+          base: "overlay-base",
+          afterOpen: "overlay-after",
+          beforeClose: "overlay-before",
+        }}
+        className={{
+          base: "content-base",
+          afterOpen: "content-after",
+          beforeClose: "content-before",
+        }}
+        closeTimeoutMS={200}
+      >
+        <div className="modal-header">
+          <h2 className="modal-title">Add Magnet</h2>
+        </div>
         <div className="modal-body">
           <input
             type="text"
-            className="post-input"
+            className="modal-input"
             placeholder="Image URL"
             onChange={(e) => {
               setImageUrl(e.target.value);
@@ -78,7 +94,7 @@ export default function Post({
           ></input>
           <input
             type="text"
-            className="post-input"
+            className="modal-input"
             placeholder="Owner"
             onChange={(e) => {
               setOwner(e.target.value);
@@ -86,7 +102,7 @@ export default function Post({
           ></input>
           <input
             type="text"
-            className="post-input"
+            className="modal-input"
             placeholder="Hunter"
             onChange={(e) => {
               setHunter(e.target.value);
@@ -94,33 +110,42 @@ export default function Post({
           ></input>
           <input
             type="text"
-            className="post-input"
+            className="modal-input modal-comment"
             placeholder="Comment"
             onChange={(e) => {
               setComment(e.target.value);
             }}
           ></input>
-          <span>Favorite?</span>
-          <input
-            type="checkbox"
-            className="post-input"
-            onChange={(e) => {
-              setFavorite(!favorite);
-            }}
-          ></input>
-          <span>Handmade?</span>
-          <input
-            type="checkbox"
-            className="post-input"
-            onChange={(e) => {
-              setHandmade(!handmade);
-            }}
-          ></input>
+          <div className="modal-input">
+            <label className="check-label" htmlFor="post-check-favorite">
+              Favorite
+            </label>
+            <input
+              id="post-check-favorite"
+              type="checkbox"
+              className="checkbox"
+              onChange={() => {
+                setFavorite(!favorite);
+              }}
+            ></input>
+          </div>
+          <div className="modal-input">
+            <label className="check-label" htmlFor="post-check-handmade">
+              Handmade
+            </label>
+            <input
+              id="post-check-handmade"
+              type="checkbox"
+              className="checkbox"
+              onChange={() => {
+                setHandmade(!handmade);
+              }}
+            ></input>
+          </div>
         </div>
         <div className="modal-footer">
-          <img
-            className="submit-button"
-            src="/icons/check.svg"
+          <button
+            className="submit-button green modal-button"
             onClick={() => {
               if (imageUrl && owner && hunter && comment) {
                 submitPostData();
@@ -128,16 +153,18 @@ export default function Post({
                 alert("Input all the information!");
               }
             }}
-          ></img>
-          <img
-            className="submit-button"
-            src="/icons/cancel.svg"
-            data-dismiss="modal"
+          >
+            Add
+          </button>
+          <button
+            className="submit-button grey modal-button"
             onClick={() => {
               setIsPostModal(false);
               setClickedPlace(null);
             }}
-          ></img>
+          >
+            Cancel
+          </button>
         </div>
       </Modal>
     </div>

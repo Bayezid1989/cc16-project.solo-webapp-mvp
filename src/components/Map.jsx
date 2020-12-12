@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -21,7 +21,7 @@ import "@reach/combobox/styles.css";
 
 const libraries = ["places"];
 const mapContainerStyle = {
-  width: "99vw",
+  width: "100%",
   height: "60vh",
 };
 
@@ -56,12 +56,13 @@ export default function Map({
   });
 
   const onMapClick = useCallback((e) => {
-    console.log(e);
     setClickedPlace({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+    setSelectedMarker(null);
   }, []);
 
   const onMarkerClick = useCallback((marker) => {
     setSelectedMarker(marker);
+    setClickedPlace(null);
   }, []);
 
   const onMapLoad = useCallback(async (map) => {
@@ -83,7 +84,7 @@ export default function Map({
   if (!isLoaded) return "Loading maps";
 
   return (
-    <div>
+    <div className="modal-wrapper">
       <Search panTo={panTo} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}

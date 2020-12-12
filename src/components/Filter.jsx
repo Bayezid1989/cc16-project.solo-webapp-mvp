@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function Filter({ markers, setMarkers, cities, countries }) {
+export default function Filter({ setMarkers, cities, countries }) {
   const [selectedCity, setSelectedCity] = useState("City");
   const [selectedCountry, setSelectedCountry] = useState("Country");
   const [isFavorite, setIsFavorite] = useState(false);
@@ -34,9 +34,9 @@ export default function Filter({ markers, setMarkers, cities, countries }) {
   };
 
   return (
-    <div>
+    <div className="filter-wrapper">
       <select
-        className="select"
+        className="select filter-part"
         onChange={(e) => {
           setSelectedCountry(e.target.value);
         }}
@@ -52,7 +52,7 @@ export default function Filter({ markers, setMarkers, cities, countries }) {
           : null}
       </select>
       <select
-        className="select"
+        className="select filter-part"
         onChange={(e) => {
           setSelectedCity(e.target.value);
         }}
@@ -60,28 +60,39 @@ export default function Filter({ markers, setMarkers, cities, countries }) {
           setSelectedCity(e.target.value);
         }}
       >
-        <option>City</option>
+        <option>Region/City</option>
         {cities
           ? cities.map((city, index) => <option key={index}>{city}</option>)
           : null}
       </select>
-      <span>Favorite?</span>
-      <input
-        type="checkbox"
-        className="post-input"
-        onChange={(e) => {
-          setIsFavorite(!isFavorite);
-        }}
-      ></input>
-      <span>Handmade?</span>
-      <input
-        type="checkbox"
-        className="post-input"
-        onChange={(e) => {
-          setIsHandmade(!isHandmade);
-        }}
-      ></input>
+      <div className="filter-part">
+        <label className="check-label" htmlFor="filter-check-favorite">
+          Favorite
+        </label>
+        <input
+          id="filter-check-favorite"
+          type="checkbox"
+          className="checkbox"
+          onChange={() => {
+            setIsFavorite(!isFavorite);
+          }}
+        ></input>
+      </div>
+      <div className="filter-part">
+        <label className="check-label" htmlFor="filter-check-handmade">
+          Handmade
+        </label>
+        <input
+          id="filter-check-handmade"
+          type="checkbox"
+          className="checkbox"
+          onChange={() => {
+            setIsHandmade(!isHandmade);
+          }}
+        ></input>
+      </div>
       <button
+        className="submit-button purple filter-part"
         onClick={() => {
           filter();
         }}

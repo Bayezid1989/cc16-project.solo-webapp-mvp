@@ -9,7 +9,7 @@ export default function Filter({ setMarkers, cities, countries }) {
 
   const filter = async () => {
     let query;
-    if (selectedCity !== "City") {
+    if (selectedCity !== "Region/City") {
       query = `city=${selectedCity}`;
     }
     if (selectedCountry !== "Country") {

@@ -7,6 +7,7 @@ Main focus is on manipulating React and Google Map API.
 
 - Google Maps API
 - React
+- Cloudinary
 - Express
 - NodeJS
 - postgres
@@ -20,8 +21,7 @@ I just give up displaying them, and I was afraid that I forget where I bought th
 To solve my problem, I created this App.
 Mag Map! enebles you to display the magnets with the location in the map, so that you can see where you bought each magnets as well enjoying the magnets display.
 
-Mag Map is ready at Heroku.
-Try to use it!
+Mag Map is running at Heroku.
 
 - [Mag Map!](https://magnet-map.herokuapp.com/)
 

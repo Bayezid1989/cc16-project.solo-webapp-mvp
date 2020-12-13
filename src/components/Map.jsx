@@ -18,6 +18,7 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
+import { Image } from "cloudinary-react";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -132,11 +133,14 @@ export default function Map({
             }}
           >
             <div className="window-box-wrapper">
-              <img
+              <Image
                 className="window-box-image"
-                src={selectedMarker.image_url}
+                cloudName={process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}
+                publicId={selectedMarker.image_path}
+                width="150"
+                crop="scale"
                 onClick={() => setIsEditModal(true)}
-              ></img>
+              />
               <div className="window-box-info">
                 <ul>
                   <li>Hunted by {selectedMarker.hunter}</li>

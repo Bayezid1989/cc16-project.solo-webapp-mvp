@@ -1,4 +1,5 @@
 import React from "react";
+import { Image } from "cloudinary-react";
 
 export default function Grid({ markers, panTo }) {
   let images = markers.map((marker, index) => {
@@ -6,10 +7,12 @@ export default function Grid({ markers, panTo }) {
     const lng = marker.lng;
     return (
       <div className="image-wrapper" key={index}>
-        <img
-          src={marker.image_url}
-          alt=""
+        <Image
           className="image"
+          cloudName={process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}
+          publicId={marker.image_path}
+          width="280"
+          crop="scale"
           onClick={() => {
             panTo({ lat, lng });
           }}

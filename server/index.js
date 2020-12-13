@@ -35,7 +35,7 @@ app.post("/api/magnet", async (req, res) => {
   try {
     const postData = req.body;
     const newMagnet = await pool.query(
-      `INSERT INTO magnet (image_url, lat, lng, owner, hunter, comment, city, country, favorite, handmade) VALUES ('${postData.image_url}', '${postData.lat}', '${postData.lng}', '${postData.owner}', '${postData.hunter}', '${postData.comment}', '${postData.city}', '${postData.country}', '${postData.favorite}','${postData.handmade}')`
+      `INSERT INTO magnet (image_path, lat, lng, owner, hunter, comment, city, country, favorite, handmade) VALUES ('${postData.image_path}', '${postData.lat}', '${postData.lng}', '${postData.owner}', '${postData.hunter}', '${postData.comment}', '${postData.city}', '${postData.country}', '${postData.favorite}','${postData.handmade}')`
     );
     res.json(newMagnet);
   } catch (err) {

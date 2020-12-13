@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from "react";
 import axios from "axios";
 import Modal from "react-modal";
+import { useDropzone } from "react-dropzone";
+// import styles from "../styles/index.css";
 
 export default function Post({
   setClickedPlace,
@@ -8,12 +10,37 @@ export default function Post({
   isPostModal,
   setIsPostModal,
 }) {
-  const [imageUrl, setImageUrl] = useState();
+  const [imagePath, setImagePath] = useState();
   const [owner, setOwner] = useState();
   const [hunter, setHunter] = useState();
   const [comment, setComment] = useState();
   const [favorite, setFavorite] = useState(false);
   const [handmade, setHandmade] = useState(false);
+
+  const onDrop = useCallback((acceptedFiles) => {
+    try {
+      const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/upload`;
+      acceptedFiles.forEach(async (acceptedFile) => {
+        const formData = new FormData();
+        formData.append("file", acceptedFile);
+        formData.append("folder", "magnets");
+        formData.append(
+          "upload_preset",
+          process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET
+        );
+        const response = await axios.post(url, formData);
+        setImagePath(response.data.public_id);
+      });
+    } catch (err) {
+      console.log("Error at cloudinary upload", err);
+    }
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accepts: "images/*",
+    multiple: false,
+  });
 
   const submitPostData = useCallback(async () => {
     try {
@@ -45,7 +72,7 @@ export default function Post({
       }
 
       const body = {
-        image_url: imageUrl,
+        image_path: imagePath,
         lat: clickedPlace.lat,
         lng: clickedPlace.lng,
         owner: owner,
@@ -84,14 +111,13 @@ export default function Post({
           <h2 className="modal-title">Add Magnet</h2>
         </div>
         <div className="modal-body">
-          <input
-            type="text"
-            className="modal-input"
-            placeholder="Image URL"
-            onChange={(e) => {
-              setImageUrl(e.target.value);
-            }}
-          ></input>
+          <div
+            {...getRootProps()}
+            className={`dropzone ${isDragActive ? "active" : null}`}
+          >
+            <input {...getInputProps()}></input>
+            Drop photo here
+          </div>
           <input
             type="text"
             className="modal-input"
@@ -147,7 +173,7 @@ export default function Post({
           <button
             className="submit-button green modal-button"
             onClick={() => {
-              if (imageUrl && owner && hunter && comment) {
+              if (owner && hunter && comment) {
                 submitPostData();
               } else {
                 alert("Input all the information!");

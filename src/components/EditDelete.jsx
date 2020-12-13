@@ -8,7 +8,7 @@ export default function EditDelete({
   isEditModal,
   setIsEditModal,
 }) {
-  const [imageUrl, setImageUrl] = useState();
+  const [imagePath, setImagePath] = useState();
   const [owner, setOwner] = useState();
   const [hunter, setHunter] = useState();
   const [comment, setComment] = useState();
@@ -27,7 +27,7 @@ export default function EditDelete({
   const submitEditData = useCallback(async () => {
     try {
       const body = {};
-      if (imageUrl) body.image_url = imageUrl;
+      if (imagePath) body.image_path = imagePath;
       if (owner) body.owner = owner;
       if (hunter) body.hunter = hunter;
       if (comment) body.comment = comment;
@@ -77,9 +77,9 @@ export default function EditDelete({
               type="text"
               className="modal-input"
               placeholder="Image URL"
-              defaultValue={selectedMarker.image_url}
+              defaultValue={selectedMarker.image_path}
               onChange={(e) => {
-                setImageUrl(e.target.value);
+                setImagePath(e.target.value);
               }}
             ></input>
           ) : null}

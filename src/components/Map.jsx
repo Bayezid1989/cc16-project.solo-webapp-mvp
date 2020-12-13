@@ -104,7 +104,7 @@ export default function Map({
               position={{ lat: marker.lat, lng: marker.lng }}
               icon={{
                 url: iconPath,
-                scaledSize: new window.google.maps.Size(30, 30),
+                scaledSize: new window.google.maps.Size(25, 25),
                 origin: new window.google.maps.Point(0, 0),
                 anchor: new window.google.maps.Point(15, 15),
               }}

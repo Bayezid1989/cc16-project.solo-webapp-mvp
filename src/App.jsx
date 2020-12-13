@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import Modal from "react-modal";
-// import "./styles/App.css";
+import "./styles/App.css";
 import Map from "./components/Map";
 import Post from "./components/Post";
 import EditDelete from "./components/EditDelete";

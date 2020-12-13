@@ -29,7 +29,12 @@ export default function Post({
           process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET
         );
         const response = await axios.post(url, formData);
-        setImagePath(response.data.public_id);
+        if (response.status === 200) {
+          alert("Upload completed!");
+          setImagePath(response.data.public_id);
+        } else {
+          alert("Upload failed");
+        }
       });
     } catch (err) {
       console.log("Error at cloudinary upload", err);

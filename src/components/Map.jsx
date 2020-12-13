@@ -147,6 +147,13 @@ export default function Map({
                   <li>Owned by {selectedMarker.owner}</li>
                   <li>{selectedMarker.comment}</li>
                   <li>
+                    {selectedMarker.favorite ? (
+                      <img
+                        className="window-box-icon"
+                        src="/icons/star.svg"
+                        alt=""
+                      />
+                    ) : null}
                     {selectedMarker.handmade ? (
                       <img
                         className="window-box-icon"

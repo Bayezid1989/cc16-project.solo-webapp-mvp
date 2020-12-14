@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function Filter({ setMarkers, cities, countries }) {
-  const [selectedCity, setSelectedCity] = useState("City");
+export default function Filter({ setMarkers, cities, countries, areas }) {
+  const [selectedCity, setSelectedCity] = useState("Region/City");
   const [selectedCountry, setSelectedCountry] = useState("Country");
+  const [selectedArea, setSelectedArea] = useState("Area");
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHandmade, setIsHandmade] = useState(false);
 
@@ -16,6 +17,11 @@ export default function Filter({ setMarkers, cities, countries }) {
       query
         ? (query += `&country=${selectedCountry}`)
         : (query = `country=${selectedCountry}`);
+    }
+    if (selectedArea !== "Area") {
+      query
+        ? (query += `&area=${selectedArea}`)
+        : (query = `area=${selectedArea}`);
     }
     if (isFavorite === true) {
       query ? (query += "&favorite=true") : (query = "favorite=true");
@@ -35,6 +41,20 @@ export default function Filter({ setMarkers, cities, countries }) {
 
   return (
     <div className="filter-wrapper">
+      <select
+        className="select filter-part"
+        onChange={(e) => {
+          setSelectedArea(e.target.value);
+        }}
+        onBlur={(e) => {
+          setSelectedArea(e.target.value);
+        }}
+      >
+        <option>Area</option>
+        {areas
+          ? areas.map((area, index) => <option key={index}>{area}</option>)
+          : null}
+      </select>
       <select
         className="select filter-part"
         onChange={(e) => {

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import axios from "axios";
 import Modal from "react-modal";
 import { useDropzone } from "react-dropzone";
-// import styles from "../styles/index.css";
+import countryRegions from "../countryRegion.json";
 
 export default function Post({
   setClickedPlace,
@@ -61,6 +61,7 @@ export default function Post({
       );
       let locality;
       let country;
+      let area;
       for (let result of getRes.data.results) {
         if (
           !locality &&
@@ -75,6 +76,10 @@ export default function Post({
         if (!country && result.types[0] === "country")
           country = result.address_components[0].long_name;
       }
+      const matchedCountryRegion = countryRegions.find(
+        (countryRegion) => countryRegion.country === country
+      );
+      if (matchedCountryRegion) area = matchedCountryRegion.location;
 
       const body = {
         image_path: imagePath,
@@ -85,6 +90,7 @@ export default function Post({
         comment: comment,
         city: locality,
         country: country,
+        area: area,
         favorite: favorite,
         handmade: handmade,
       };

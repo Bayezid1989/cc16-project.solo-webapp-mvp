@@ -15,6 +15,7 @@ export default function App() {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [cities, setCities] = useState();
   const [countries, setCountires] = useState();
+  const [areas, setAreas] = useState();
   const [isPostModal, setIsPostModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
   const mapRef = useRef();
@@ -44,6 +45,7 @@ export default function App() {
         panTo={panTo}
         setCities={setCities}
         setCountires={setCountires}
+        setAreas={setAreas}
         setIsPostModal={setIsPostModal}
         setIsEditModal={setIsEditModal}
       />
@@ -68,6 +70,7 @@ export default function App() {
         setMarkers={setMarkers}
         cities={cities}
         countries={countries}
+        areas={areas}
       />
       <Grid markers={markers} panTo={panTo} />
     </div>

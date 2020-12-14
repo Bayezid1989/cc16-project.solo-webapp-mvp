@@ -48,6 +48,7 @@ export default function Map({
   panTo,
   setCities,
   setCountires,
+  setAreas,
   setIsPostModal,
   setIsEditModal,
 }) {
@@ -73,12 +74,15 @@ export default function Map({
     mapRef.current = map;
     const cities = [];
     const countries = [];
+    const areas = [];
     res.data.map((data) => {
       cities.push(data.city);
       countries.push(data.country);
+      areas.push(data.area);
     });
     setCities([...new Set(cities)]);
     setCountires([...new Set(countries)]);
+    setAreas([...new Set(areas)]);
   }, []);
 
   if (loadError) return "Error loading maps";

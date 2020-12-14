@@ -14,6 +14,7 @@ export default function EditDelete({
   const [comment, setComment] = useState();
   const [city, setCity] = useState();
   const [country, setCountry] = useState();
+  const [area, setArea] = useState();
   const [favorite, setFavorite] = useState(false);
   const [handmade, setHandmade] = useState(false);
 
@@ -33,6 +34,7 @@ export default function EditDelete({
       if (comment) body.comment = comment;
       if (city) body.city = city;
       if (country) body.country = country;
+      if (area) body.area = area;
       body.favorite = favorite;
       body.handmade = handmade;
       const res = await axios.patch(`/api/magnet/${selectedMarker.id}`, body);
@@ -76,7 +78,7 @@ export default function EditDelete({
             <input
               type="text"
               className="modal-input"
-              placeholder="Image URL"
+              placeholder="Image Path"
               defaultValue={selectedMarker.image_path}
               onChange={(e) => {
                 setImagePath(e.target.value);
@@ -120,7 +122,7 @@ export default function EditDelete({
             <input
               type="text"
               className="modal-input"
-              placeholder="City"
+              placeholder="Region/City"
               defaultValue={selectedMarker.city}
               onChange={(e) => {
                 setCity(e.target.value);
@@ -135,6 +137,17 @@ export default function EditDelete({
               defaultValue={selectedMarker.country}
               onChange={(e) => {
                 setCountry(e.target.value);
+              }}
+            ></input>
+          ) : null}
+          {selectedMarker ? (
+            <input
+              type="text"
+              className="modal-input"
+              placeholder="Area"
+              defaultValue={selectedMarker.area}
+              onChange={(e) => {
+                setArea(e.target.value);
               }}
             ></input>
           ) : null}

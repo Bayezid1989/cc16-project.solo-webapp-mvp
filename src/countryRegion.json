@@ -216,6 +216,10 @@
         "location": "Middle East"
     },
     {
+        "country": "Czechia",
+        "location": "Eastern Europe"
+    },
+    {
         "country": "Czech Republic",
         "location": "Eastern Europe"
     },
@@ -846,6 +850,10 @@
     {
         "country": "Syria",
         "location": "Middle East"
+    },
+    {
+        "country": "Taiwan",
+        "location": "Eastern Asia"
     },
     {
         "country": "Tajikistan",

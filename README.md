@@ -1,7 +1,7 @@
 # CC16 Project Solo Web App MVP
 
 This was created during my time as a student at Code Chrysalis.
-Main focus is on manipulating React and Google Map API.
+Main focus is on manipulating React and Google Maps API.
 
 ### Technologies
 

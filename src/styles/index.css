@@ -206,7 +206,10 @@ input {
 .modal-button {
   min-height: 2rem;
   min-width: 5rem;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
   font-size: larger;
+  text-align: center;
 }
 
 .filter-wrapper {
@@ -273,6 +276,11 @@ select {
   .search {
     display: none;
   }
+  .modal-button {
+    min-height: 2rem;
+    min-width: 4rem;
+    font-size: medium;
+  }
   .grid {
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     grid-gap: 0.7rem;
@@ -280,6 +288,19 @@ select {
   }
   .image {
     max-width: 170px;
+  }
+}
+
+@media all and (max-width: 440px) {
+  .modal-input {
+    margin: 0.2rem;
+    padding: 0.1rem;
+  }
+  .check-label {
+    margin-right: 0.2rem;
+  }
+  .checkbox {
+    transform: scale(1.3);
   }
 }
 

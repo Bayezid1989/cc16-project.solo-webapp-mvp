@@ -52,7 +52,9 @@ export default function Filter({ setMarkers, cities, countries, areas }) {
       >
         <option>Area</option>
         {areas
-          ? areas.map((area, index) => <option key={index}>{area}</option>)
+          ? areas
+              .sort()
+              .map((area, index) => <option key={index}>{area}</option>)
           : null}
       </select>
       <select
@@ -66,9 +68,9 @@ export default function Filter({ setMarkers, cities, countries, areas }) {
       >
         <option>Country</option>
         {countries
-          ? countries.map((country, index) => (
-              <option key={index}>{country}</option>
-            ))
+          ? countries
+              .sort()
+              .map((country, index) => <option key={index}>{country}</option>)
           : null}
       </select>
       <select
@@ -82,7 +84,9 @@ export default function Filter({ setMarkers, cities, countries, areas }) {
       >
         <option>Region/City</option>
         {cities
-          ? cities.map((city, index) => <option key={index}>{city}</option>)
+          ? cities
+              .sort()
+              .map((city, index) => <option key={index}>{city}</option>)
           : null}
       </select>
       <div className="filter-part">

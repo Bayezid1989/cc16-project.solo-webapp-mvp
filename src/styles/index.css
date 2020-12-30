@@ -67,6 +67,11 @@ input {
   margin: 5px;
 }
 
+.window-box-list {
+  padding-left: 0;
+  text-align: center;
+}
+
 .overlay-base {
   position: fixed;
   top: 0;
@@ -242,14 +247,10 @@ select {
   transform: scale(1.8);
 }
 
-* {
-  padding: 0;
-}
-
 .grid {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   grid-gap: 1rem;
   grid-auto-flow: dense;
   padding: 1rem;
@@ -268,8 +269,25 @@ select {
   transition: 0.3s all;
 }
 
-@media all and (max-width: 670px) {
+@media all and (max-width: 625px) {
   .search {
     display: none;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    grid-gap: 0.7rem;
+    padding: 0.7rem;
+  }
+  .image {
+    max-width: 170px;
+  }
+}
+
+@media all and (max-width: 370px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  .image {
+    max-width: 140px;
   }
 }

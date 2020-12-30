@@ -146,7 +146,7 @@ export default function Map({
                 onClick={() => setIsEditModal(true)}
               />
               <div className="window-box-info">
-                <ul>
+                <ul className="window-box-list">
                   <li>Hunted by {selectedMarker.hunter}</li>
                   <li>Owned by {selectedMarker.owner}</li>
                   <li>{selectedMarker.comment}</li>

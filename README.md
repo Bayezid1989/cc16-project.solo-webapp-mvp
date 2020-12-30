@@ -28,7 +28,7 @@ Mag Map! enebles you to display the magnets with the location in the map, so tha
 ### What you can do
 
 You can add a magnet to the exact place on the map with some information (owner, hunter, comment) and of course a photo of your magnet.
-If you are not really sure about the place on the map, you can search the place from the search bar and choose the place from the suggestion, then the map will be moved to there (Google Map Places & Geocording).
+If you are not really sure about the place on the map, you can search the place from the search bar and choose the place from the suggestion (available only when width is bigger than 625px), then the map will be moved to there (Google Map Places & Geocording).
 Also you can choose favorite or handmade.
 If the owner and the hunter are different, icon on the map will be a gift icon.
 
